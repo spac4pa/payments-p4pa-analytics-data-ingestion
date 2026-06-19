@@ -50,8 +50,8 @@ repositories {
 }
 
 val springDocOpenApiVersion = "3.0.3"
-val springWolfAsyncApiVersion = "1.20.0"
-val springWolfUiAsyncApiVersion = "1.20.0"
+val springWolfAsyncApiVersion = "1.21.0"
+val springWolfUiAsyncApiVersion = "1.21.0"
 val openApiToolsVersion = "0.2.10"
 val micrometerVersion = "1.7.0"
 val bouncycastleVersion = "1.84"
@@ -60,11 +60,11 @@ val httpCoreVersion = "5.4.2"
 val kafkaAppender = "0.2.0-RC2"
 val lz4JavaVersion = "1.11.0"
 val commonsLang3Version = "3.20.0"
-val temporalVersion = "1.34.0"
-val protobufJavaVersion = "4.34.1"
-val grpcBomVersion = "1.80.0"
+val temporalVersion = "1.35.0"
+val protobufJavaVersion = "4.35.1"
+val grpcBomVersion = "1.82.0"
 val guavaVersion = "33.6.0-jre"
-val otelVersion = "1.61.0"
+val otelVersion = "1.63.0"
 val mapStructVersion = "1.6.3"
 val postgresJdbcVersion = "42.7.11"
 val podamVersion = "8.0.2.RELEASE"
@@ -97,7 +97,7 @@ dependencies {
   implementation ("io.github.springwolf:springwolf-kafka:${springWolfAsyncApiVersion}") {
     exclude(group = "org.lz4", module = "lz4-java")
   }
-  implementation("io.github.springwolf:springwolf-ui:${springWolfAsyncApiVersion}")
+  implementation("io.github.springwolf:springwolf-ui:${springWolfUiAsyncApiVersion}")
   implementation("io.github.springwolf:springwolf-cloud-stream:${springWolfAsyncApiVersion}")
   implementation("io.micrometer:micrometer-tracing-bridge-otel:$micrometerVersion")
   implementation("io.micrometer:micrometer-registry-prometheus")
