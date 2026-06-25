@@ -53,6 +53,7 @@ spring:
             spring.cloud.stream.kafka.binder:
               brokers: "\${KAFKA_PAYMENTS_BINDER_BROKER:\${KAFKA_BINDER_BROKER:}}"
               configuration:
+                client.id: analyticsingestion-paymentsConsumer
                 sasl.jaas.config: "\${KAFKA_PAYMENTS_CONSUMER_SASL_JAAS_CONFIG:}"
         kafka-data-events-consumer:
           type: kafka
@@ -60,6 +61,7 @@ spring:
             spring.cloud.stream.kafka.binder:
               brokers: "\${KAFKA_DATA_EVENTS_BINDER_BROKER:\${KAFKA_BINDER_BROKER:}}"
               configuration:
+                client.id: analyticsingestion-dataEventsConsumer
                 sasl.jaas.config: "\${KAFKA_DATA_EVENTS_CONSUMER_SASL_JAAS_CONFIG:}"
         kafka-audit-consumer:
           type: kafka
@@ -67,6 +69,7 @@ spring:
             spring.cloud.stream.kafka.binder:
               brokers: "\${KAFKA_AUDIT_BINDER_BROKER:\${KAFKA_BINDER_BROKER:}}"
               configuration:
+                client.id: analyticsingestion-auditConsumer
                 sasl.jaas.config: "\${KAFKA_AUDIT_CONSUMER_SASL_JAAS_CONFIG:}"
       bindings:
         paymentsConsumer-in-0:
@@ -74,19 +77,25 @@ spring:
           content-type: "\${KAFKA_CONTENT_TYPE:application/json}"
           destination: "\${KAFKA_TOPIC_PAYMENTS:p4pa-payhub-payments-evh}"
           group: "\${KAFKA_PAYMENTS_GROUP_ID:analytics-payments-consumer-group}"
-          consumer.auto-startup: "\${KAFKA_PAYMENTS_CONSUMER_ENABLED:true}"
+          consumer:
+            auto-startup: "\${KAFKA_PAYMENTS_CONSUMER_ENABLED:true}"
+            concurrency: "\${KAFKA_PAYMENTS_CONSUMER_CONCURRENCY:1}"
         dataEventsConsumer-in-0:
           binder: kafka-data-events-consumer
           content-type: "\${KAFKA_CONTENT_TYPE:application/json}"
           destination: "\${KAFKA_TOPIC_DATA_EVENTS:p4pa-payhub-data-events-evh}"
           group: "\${KAFKA_DATA_EVENTS_GROUP_ID:analytics-data-events-consumer-group}"
-          consumer.auto-startup: "\${KAFKA_DATA_EVENTS_CONSUMER_ENABLED:true}"
+          consumer:
+            auto-startup: "\${KAFKA_DATA_EVENTS_CONSUMER_ENABLED:true}"
+            concurrency: "\${KAFKA_DATA_EVENTS_CONSUMER_CONCURRENCY:1}"
         auditConsumer-in-0:
           binder: kafka-audit-consumer
           content-type: "\${KAFKA_CONTENT_TYPE:application/json}"
           destination: "\${KAFKA_TOPIC_AUDIT:p4pa-payhub-audit-evh}"
           group: "\${KAFKA_AUDIT_GROUP_ID:analytics-audit-consumer-group}"
-          consumer.auto-startup: "\${KAFKA_AUDIT_CONSUMER_ENABLED:true}"
+          consumer:
+            auto-startup: "\${KAFKA_AUDIT_CONSUMER_ENABLED:true}"
+            concurrency: "\${KAFKA_AUDIT_CONSUMER_CONCURRENCY:1}"
       kafka:
         binder:
           auto-create-topics: false
