@@ -23,6 +23,14 @@ public class Utilities {
 
   private static final Pattern IUD_MATCH_PATTERN = Pattern.compile("IUD:\\s*([^;]*)\\s*(?:;|$)");
 
+  public static String getTraceId() {
+    return MDC.get("traceId");
+  }
+
+  public static String getSpanId(){
+    return MDC.get("spanId");
+  }
+
   public static String generateWorkflowId(Long id, Class<?> workflowInterface) {
     return generateWorkflowId(id != null ? id.toString() : null, workflowInterface);
   }
@@ -70,10 +78,6 @@ public class Utilities {
       LocalTime.MIN,
       ZoneOffset.UTC
     ).atZoneSameInstant(Constants.ZONEID).toOffsetDateTime();
-  }
-
-  public static String getTraceId() {
-    return MDC.get("traceId");
   }
 
   public static OffsetDateTime protobufTimestamp2OffsetDateTime(Timestamp ts) {
