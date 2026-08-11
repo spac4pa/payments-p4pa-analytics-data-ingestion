@@ -1,5 +1,6 @@
 package it.gov.pagopa.analytics.ingestion.connector.debtpositions.config;
 
+import it.gov.pagopa.analytics.ingestion.config.json.JsonConfig;
 import it.gov.pagopa.analytics.ingestion.connector.BaseApiHolderTest;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -12,22 +13,29 @@ import org.springframework.boot.restclient.RestTemplateBuilder;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.web.util.DefaultUriBuilderFactory;
 
+import static org.mockito.Mockito.when;
+
 @ExtendWith(MockitoExtension.class)
 class DebtPositionApisHolderTest extends BaseApiHolderTest {
 
   @Mock
   private RestTemplateBuilder restTemplateBuilderMock;
 
-  private DebtPositionApisHolder debtPositionApisHolder;
+  private DebtPositionApisHolder apisHolder;
+  private DebtPositionApiClientConfig apiClientConfig;
 
   @BeforeEach
   void setUp() {
-    Mockito.when(restTemplateBuilderMock.build()).thenReturn(restTemplateMock);
-    Mockito.when(restTemplateMock.getUriTemplateHandler()).thenReturn(new DefaultUriBuilderFactory());
-    DebtPositionApiClientConfig clientConfig = DebtPositionApiClientConfig.builder()
+    when(restTemplateBuilderMock.build()).thenReturn(restTemplateMock);
+    when(restTemplateMock.getUriTemplateHandler()).thenReturn(new DefaultUriBuilderFactory());
+
+    apiClientConfig = DebtPositionApiClientConfig.builder()
       .baseUrl("http://example.com")
+      .maxAttempts(3)
       .build();
-    debtPositionApisHolder = new DebtPositionApisHolder(clientConfig, restTemplateBuilderMock);
+    apisHolder = new DebtPositionApisHolder(apiClientConfig, restTemplateBuilderMock, new JsonConfig().objectMapperJackson3());
+
+    verifyHttpClientErrorJsonBodyHandlerConfiguration(apisHolder.getDebtPositionTypeOrgSearchControllerApi(null));
   }
 
   @AfterEach
@@ -38,12 +46,21 @@ class DebtPositionApisHolderTest extends BaseApiHolderTest {
   }
 
   @Test
+  void testRetryConfiguration() {
+    assertRetry(apiClientConfig,
+      accessToken -> apisHolder.getDebtPositionTypeOrgSearchControllerApi(accessToken)
+        .crudDebtPositionTypeOrgsFindDebtPositionTypeOrgs(1L, "operator123", true),
+      new ParameterizedTypeReference<>() {}
+    );
+  }
+
+  @Test
   void whenGetDebtPositionTypeOrgSearchControllerApiThenAuthenticationShouldBeSetInThreadSafeMode() throws InterruptedException {
     assertAuthenticationShouldBeSetInThreadSafeMode(
-      accessToken -> debtPositionApisHolder.getDebtPositionTypeOrgSearchControllerApi(accessToken)
+      accessToken -> apisHolder.getDebtPositionTypeOrgSearchControllerApi(accessToken)
         .crudDebtPositionTypeOrgsFindDebtPositionTypeOrgs(1L, "operator123", true),
       new ParameterizedTypeReference<>() {
-      }, debtPositionApisHolder::unload);
+      }, apisHolder::unload);
   }
 
 }

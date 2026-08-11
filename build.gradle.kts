@@ -58,7 +58,7 @@ val bouncycastleVersion = "1.84"
 val httpClientVersion = "5.6.1"
 val httpCoreVersion = "5.4.2"
 val kafkaAppender = "0.2.0-RC2"
-val lz4JavaVersion = "1.11.0"
+val lz4JavaVersion = "1.11.1"
 val commonsLang3Version = "3.20.0"
 val temporalVersion = "1.35.0"
 val protobufJavaVersion = "4.35.1"
@@ -66,7 +66,7 @@ val grpcBomVersion = "1.82.0"
 val guavaVersion = "33.6.0-jre"
 val otelVersion = "1.63.0"
 val mapStructVersion = "1.6.3"
-val postgresJdbcVersion = "42.7.11"
+val postgresJdbcVersion = "42.7.13"
 val podamVersion = "8.0.2.RELEASE"
 
 val springCloudDepsVersion = "2025.1.2"
@@ -249,7 +249,7 @@ tasks.register<org.openapitools.generator.gradle.plugin.tasks.GenerateTask>("ope
   remoteInputSpec.set("https://raw.githubusercontent.com/pagopa/p4pa-doc/refs/heads/main/openapi/$targetEnv/internal/p4pa-auth.openapi.yaml")
   outputDir.set("$projectDir/build/generated")
   invokerPackage.set("it.gov.pagopa.pu.auth.generated")
-  apiPackage.set("it.gov.pagopa.pu.auth.controller.generated")
+  apiPackage.set("it.gov.pagopa.pu.auth.client.generated")
   modelPackage.set("it.gov.pagopa.pu.auth.dto.generated")
   configOptions.set(mapOf(
     "swaggerAnnotations" to "false",
@@ -279,7 +279,7 @@ tasks.register<org.openapitools.generator.gradle.plugin.tasks.GenerateTask>("ope
   remoteInputSpec.set("https://raw.githubusercontent.com/pagopa/p4pa-doc/refs/heads/main/openapi/$targetEnv/internal/p4pa-debt-positions.generated.openapi.json")
   outputDir.set("$projectDir/build/generated")
   invokerPackage.set("it.gov.pagopa.pu.debtpositions.generated")
-  apiPackage.set("it.gov.pagopa.pu.debtpositions.controller.generated")
+  apiPackage.set("it.gov.pagopa.pu.debtpositions.client.generated")
   modelPackage.set("it.gov.pagopa.pu.debtpositions.dto.generated")
   typeMappings.set(mapOf(
     "LocalDateTime" to "java.time.LocalDateTime",
@@ -319,7 +319,7 @@ tasks.register<org.openapitools.generator.gradle.plugin.tasks.GenerateTask>("ope
   remoteInputSpec.set("https://raw.githubusercontent.com/pagopa/p4pa-doc/refs/heads/main/openapi/$targetEnv/internal/p4pa-process-executions.generated.openapi.json")
   outputDir.set("$projectDir/build/generated")
   invokerPackage.set("it.gov.pagopa.pu.processexecutions.generated")
-  apiPackage.set("it.gov.pagopa.pu.processexecutions.controller.generated")
+  apiPackage.set("it.gov.pagopa.pu.processexecutions.client.generated")
   modelPackage.set("it.gov.pagopa.pu.processexecutions.dto.generated")
   typeMappings.set(mapOf(
     "LocalDateTime" to "java.time.LocalDateTime",
@@ -356,7 +356,7 @@ tasks.register<org.openapitools.generator.gradle.plugin.tasks.GenerateTask>("ope
   remoteInputSpec.set("https://raw.githubusercontent.com/pagopa/p4pa-doc/refs/heads/main/openapi/$targetEnv/internal/p4pa-classification.generated.openapi.json")
   outputDir.set("$projectDir/build/generated")
   invokerPackage.set("it.gov.pagopa.pu.classification.generated")
-  apiPackage.set("it.gov.pagopa.pu.classification.controller.generated")
+  apiPackage.set("it.gov.pagopa.pu.classification.client.generated")
   modelPackage.set("it.gov.pagopa.pu.classification.dto.generated")
   configOptions.set(mapOf(
     "swaggerAnnotations" to "false",

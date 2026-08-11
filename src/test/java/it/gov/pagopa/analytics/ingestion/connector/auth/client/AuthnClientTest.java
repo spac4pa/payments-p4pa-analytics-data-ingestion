@@ -1,7 +1,7 @@
 package it.gov.pagopa.analytics.ingestion.connector.auth.client;
 
 import it.gov.pagopa.analytics.ingestion.connector.auth.config.AuthApisHolder;
-import it.gov.pagopa.pu.auth.controller.generated.AuthnApi;
+import it.gov.pagopa.pu.auth.client.generated.AuthnApi;
 import it.gov.pagopa.pu.auth.dto.generated.AccessToken;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
