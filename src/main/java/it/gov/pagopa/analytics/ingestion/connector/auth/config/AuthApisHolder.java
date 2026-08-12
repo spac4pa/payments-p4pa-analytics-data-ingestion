@@ -2,6 +2,7 @@ package it.gov.pagopa.analytics.ingestion.connector.auth.config;
 
 import it.gov.pagopa.analytics.ingestion.config.rest.HttpClientErrorJsonBodyHandler;
 import it.gov.pagopa.analytics.ingestion.config.rest.RestTemplateConfig;
+import it.gov.pagopa.analytics.ingestion.connector.auth.mapper.AuthErrorDTOMapper;
 import it.gov.pagopa.pu.auth.client.generated.AuthnApi;
 import it.gov.pagopa.pu.auth.dto.generated.AuthErrorDTO;
 import it.gov.pagopa.pu.auth.generated.ApiClient;
@@ -36,7 +37,7 @@ public class AuthApisHolder {
             restTemplate.setErrorHandler(RestTemplateConfig.bodyPrinterWhenError("AUTH"));
         }
       restTemplate.setErrorHandler(new HttpClientErrorJsonBodyHandler<>(jsonMapper, "AUTH", clientConfig.isPrintBodyWhenError(),
-        AuthErrorDTO.class, AuthErrorDTO::getCode, AuthErrorDTO::getErrorDescription)
+        AuthErrorDTO.class, AuthErrorDTOMapper::map)
       );
 
         this.authnApi = new AuthnApi(apiClient);
