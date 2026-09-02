@@ -1,9 +1,9 @@
 package it.gov.pagopa.analytics.ingestion.controller.wf;
 
+import io.micrometer.tracing.Tracer;
 import it.gov.pagopa.analytics.ingestion.dto.generated.WorkflowCreatedDTO;
 import it.gov.pagopa.analytics.ingestion.wf.dptypeorg.DebtPositionTypeOrgsIngestionWFClient;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
 import org.springframework.boot.webmvc.test.autoconfigure.WebMvcTest;
@@ -15,6 +15,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import tools.jackson.databind.json.JsonMapper;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -29,6 +30,8 @@ class DebtPositionTypeOrgsIngestionControllerTest {
 
   @MockitoBean
   private DebtPositionTypeOrgsIngestionWFClient wfClientMock;
+  @MockitoBean
+  private Tracer tracerMock;
 
   @Test
   void whenProcessAssessmentsClassificationsThenOk() throws Exception {
@@ -39,7 +42,7 @@ class DebtPositionTypeOrgsIngestionControllerTest {
       .runId(runId)
       .build();
 
-    Mockito.when(wfClientMock.ingestDebtPositionTypeOrgs())
+    when(wfClientMock.ingestDebtPositionTypeOrgs())
       .thenReturn(expected);
 
     MvcResult result = mockMvc.perform(

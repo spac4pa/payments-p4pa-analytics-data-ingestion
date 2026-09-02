@@ -18,6 +18,45 @@ import static org.junit.jupiter.api.Assertions.*;
 @ExtendWith(MockitoExtension.class)
 public class UtilitiesTest {
 
+  public static void setTraceId(String traceId) {
+    setTraceId(traceId, null);
+  }
+  public static void setTraceId(String traceId, String spanId) {
+    MDC.put("traceId", traceId);
+    MDC.put("spanId", spanId);
+  }
+  public static void clearTraceIdContext(){
+    MDC.clear();
+  }
+
+  @Test
+  void testGetTraceId(){
+    // Given
+    String expectedResult = "TRACEID";
+    setTraceId(expectedResult);
+
+    // When
+    String result = Utilities.getTraceId();
+
+    // Then
+    Assertions.assertSame(expectedResult, result);
+    clearTraceIdContext();
+  }
+
+  @Test
+  void testGetSpanId(){
+    // Given
+    String expectedResult = "SPANID";
+    setTraceId("TRACEID", expectedResult);
+
+    // When
+    String result = Utilities.getSpanId();
+
+    // Then
+    Assertions.assertSame(expectedResult, result);
+    clearTraceIdContext();
+  }
+
   @Test
   void whenGenerateWorkflowIdThenOk(){
     String workflowId = Utilities.generateWorkflowId(1L, Utilities.class);
@@ -132,8 +171,8 @@ public class UtilitiesTest {
 
   @Test
   void givenOffsetDateTimeToLocalDateTimeThenSuccess() {
-    OffsetDateTime offsetDateTime = OffsetDateTime.of(2025, 1, 9, 10, 30, 0, 0, ZoneOffset.UTC);
-    LocalDateTime expectedLocalDateTime = LocalDateTime.of(2025, 1, 9, 10, 30, 0);
+    OffsetDateTime offsetDateTime = OffsetDateTime.of(2025, Month.JANUARY.getValue(), 9, 10, 30, 0, 0, ZoneOffset.UTC);
+    LocalDateTime expectedLocalDateTime = LocalDateTime.of(2025, Month.JANUARY, 9, 10, 30, 0);
 
     LocalDateTime result = Utilities.offsetDateTimeToLocalDateTime(offsetDateTime);
     assertEquals(expectedLocalDateTime, result);
@@ -163,27 +202,6 @@ public class UtilitiesTest {
     OffsetDateTime result = Utilities.getEpochOffsetDateTime();
     //THEN
     assertEquals(expectedOffsetDateTime, result);
-  }
-
-  @Test
-  void testGetTraceId(){
-    // Given
-    String expectedResult = "TRACEID";
-    setTraceId(expectedResult);
-
-    // When
-    String result = Utilities.getTraceId();
-
-    // Then
-    Assertions.assertSame(expectedResult, result);
-    clearTraceIdContext();
-  }
-
-  public static void setTraceId(String traceId) {
-    MDC.put("traceId", traceId);
-  }
-  public static void clearTraceIdContext(){
-    MDC.clear();
   }
 
   @Test
