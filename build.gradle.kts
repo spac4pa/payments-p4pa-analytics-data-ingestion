@@ -71,6 +71,9 @@ val podamVersion = "8.0.2.RELEASE"
 
 val springCloudDepsVersion = "2025.1.3"
 
+// CVE Security dependencies
+val tomcatEmbedCoreVersion = "11.0.25"
+
 dependencyManagement {
   imports {
     mavenBom("org.springframework.cloud:spring-cloud-dependencies:$springCloudDepsVersion")
@@ -93,24 +96,24 @@ dependencies {
   implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:$springDocOpenApiVersion") {
     exclude(group = "org.apache.commons", module = "commons-lang3")
   }
-  implementation ("org.apache.commons:commons-lang3:${commonsLang3Version}")
-  implementation ("io.github.springwolf:springwolf-kafka:${springWolfAsyncApiVersion}") {
+  implementation ("org.apache.commons:commons-lang3:$commonsLang3Version")
+  implementation ("io.github.springwolf:springwolf-kafka:$springWolfAsyncApiVersion") {
     exclude(group = "org.lz4", module = "lz4-java")
   }
-  implementation("io.github.springwolf:springwolf-ui:${springWolfUiAsyncApiVersion}")
-  implementation("io.github.springwolf:springwolf-cloud-stream:${springWolfAsyncApiVersion}")
+  implementation("io.github.springwolf:springwolf-ui:$springWolfUiAsyncApiVersion")
+  implementation("io.github.springwolf:springwolf-cloud-stream:$springWolfAsyncApiVersion")
   implementation("io.micrometer:micrometer-tracing-bridge-otel:$micrometerVersion")
   implementation("io.micrometer:micrometer-registry-prometheus")
   implementation("org.openapitools:jackson-databind-nullable:$openApiToolsVersion")
-  implementation ("org.mapstruct:mapstruct:${mapStructVersion}")
-  implementation ("org.bouncycastle:bcprov-jdk18on:${bouncycastleVersion}")
+  implementation ("org.mapstruct:mapstruct:$mapStructVersion")
+  implementation ("org.bouncycastle:bcprov-jdk18on:$bouncycastleVersion")
   implementation("org.apache.httpcomponents.client5:httpclient5:$httpClientVersion")
   implementation("org.apache.httpcomponents.core5:httpcore5-h2:$httpCoreVersion")
   implementation("org.apache.httpcomponents.core5:httpcore5:$httpCoreVersion")
   implementation("com.github.danielwegener:logback-kafka-appender:$kafkaAppender") {
     exclude(group = "org.lz4", module = "lz4-java")
   }
-  implementation ("org.postgresql:postgresql:${postgresJdbcVersion}")
+  implementation ("org.postgresql:postgresql:$postgresJdbcVersion")
   // Temporal
   implementation("io.temporal:temporal-spring-boot-starter:$temporalVersion") {
     exclude(group = "com.google.protobuf", module = "protobuf-java")
@@ -119,10 +122,13 @@ dependencies {
     exclude(group = "com.google.guava", module = "guava")
   }
   implementation("com.google.protobuf:protobuf-java:$protobufJavaVersion")
-  implementation("com.google.protobuf:protobuf-java-util:${protobufJavaVersion}")
-  implementation(platform("io.grpc:grpc-bom:${grpcBomVersion}"))
+  implementation("com.google.protobuf:protobuf-java-util:$protobufJavaVersion")
+  implementation(platform("io.grpc:grpc-bom:$grpcBomVersion"))
   implementation("com.google.guava:guava:$guavaVersion")
-  implementation("io.opentelemetry:opentelemetry-opentracing-shim:${otelVersion}")
+  implementation("io.opentelemetry:opentelemetry-opentracing-shim:$otelVersion")
+
+  // CVE Security dependencies
+  implementation("org.apache.tomcat.embed:tomcat-embed-core:$tomcatEmbedCoreVersion")
 
   compileOnly("org.projectlombok:lombok")
   annotationProcessor("org.projectlombok:lombok")
@@ -136,7 +142,7 @@ dependencies {
   testImplementation("org.mockito:mockito-core")
   testImplementation("org.projectlombok:lombok")
   testImplementation("com.h2database:h2")
-  testImplementation ("uk.co.jemos.podam:podam:${podamVersion}")
+  testImplementation ("uk.co.jemos.podam:podam:$podamVersion")
 }
 
 tasks.withType<Test> {
